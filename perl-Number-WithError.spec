@@ -4,17 +4,13 @@
 #
 Name     : perl-Number-WithError
 Version  : 1.01
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/S/SM/SMUELLER/Number-WithError-1.01.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/S/SM/SMUELLER/Number-WithError-1.01.tar.gz
 Summary  : 'Numbers with error propagation and scientific rounding'
 Group    : Development/Tools
 License  : Artistic-1.0-Perl
-Requires: perl-Number-WithError-man
-Requires: perl(Module::Install)
-Requires: perl(Params::Util)
-Requires: perl(Test::LectroTest)
-Requires: perl(prefork)
+BuildRequires : buildreq-cpan
 BuildRequires : perl(Module::Install)
 BuildRequires : perl(Params::Util)
 BuildRequires : perl(Test::LectroTest)
@@ -55,12 +51,13 @@ print $num . "\n";
 # Note: It may be annyoing that they don't all have the same
 # exponent, but they *do* all have the sam significant digit!
 
-%package man
-Summary: man components for the perl-Number-WithError package.
-Group: Default
+%package dev
+Summary: dev components for the perl-Number-WithError package.
+Group: Development
+Provides: perl-Number-WithError-devel = %{version}-%{release}
 
-%description man
-man components for the perl-Number-WithError package.
+%description dev
+dev components for the perl-Number-WithError package.
 
 
 %prep
@@ -89,9 +86,9 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -100,8 +97,8 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/Number/WithError.pm
+/usr/lib/perl5/vendor_perl/5.26.1/Number/WithError.pm
 
-%files man
+%files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/Number::WithError.3
