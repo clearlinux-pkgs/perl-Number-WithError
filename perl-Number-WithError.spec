@@ -4,12 +4,13 @@
 #
 Name     : perl-Number-WithError
 Version  : 1.01
-Release  : 11
+Release  : 12
 URL      : https://cpan.metacpan.org/authors/id/S/SM/SMUELLER/Number-WithError-1.01.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/S/SM/SMUELLER/Number-WithError-1.01.tar.gz
 Summary  : 'Numbers with error propagation and scientific rounding'
 Group    : Development/Tools
 License  : Artistic-1.0-Perl
+Requires: perl-Number-WithError-perl = %{version}-%{release}
 BuildRequires : buildreq-cpan
 BuildRequires : perl(Module::Install)
 BuildRequires : perl(Params::Util)
@@ -55,19 +56,30 @@ print $num . "\n";
 Summary: dev components for the perl-Number-WithError package.
 Group: Development
 Provides: perl-Number-WithError-devel = %{version}-%{release}
+Requires: perl-Number-WithError = %{version}-%{release}
 
 %description dev
 dev components for the perl-Number-WithError package.
 
 
+%package perl
+Summary: perl components for the perl-Number-WithError package.
+Group: Default
+Requires: perl-Number-WithError = %{version}-%{release}
+
+%description perl
+perl components for the perl-Number-WithError package.
+
+
 %prep
 %setup -q -n Number-WithError-1.01
+cd %{_builddir}/Number-WithError-1.01
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
 if test -f Makefile.PL; then
 %{__perl} Makefile.PL
 make  %{?_smp_mflags}
@@ -77,7 +89,7 @@ else
 fi
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -97,8 +109,11 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/Number/WithError.pm
 
 %files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/Number::WithError.3
+
+%files perl
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.30.1/Number/WithError.pm
