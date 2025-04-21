@@ -7,7 +7,7 @@
 #
 Name     : perl-Number-WithError
 Version  : 1.01
-Release  : 28
+Release  : 29
 URL      : https://cpan.metacpan.org/authors/id/S/SM/SMUELLER/Number-WithError-1.01.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/S/SM/SMUELLER/Number-WithError-1.01.tar.gz
 Summary  : 'Numbers with error propagation and scientific rounding'
